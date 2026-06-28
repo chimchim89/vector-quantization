@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Vector Quantization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        .serif-heading {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            letter-spacing: -0.02em;
+        }
+        .gradient-button {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        .gradient-button:hover {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            transform: translateY(-1px);
+        }
+        .nav-container {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 999px;
+        }
+        .prose h1, .prose h2, .prose h3 {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            letter-spacing: -0.02em;
+        }
+        .prose p {
+            color: #4a4a4a;
+            line-height: 1.8;
+        }
+        .prose a {
+            color: #1a1a1a;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .prose blockquote {
+            border-left: 2px solid #e2e8f0;
+            padding-left: 1.5rem;
+            color: #6b6b6b;
+            font-style: italic;
+        }
+        .prose code {
+            background: #f5f5f5;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+        .prose pre {
+            background: #f8f8f8;
+            padding: 1rem 1.25rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .prose pre code {
+            background: none;
+            padding: 0;
+        }
+        .prose img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 640px) {
+            .serif-heading {
+                font-size: 1.875rem;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            h3 {
+                font-size: 1.25rem !important;
+            }
+            .prose p {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-16 sm:pb-20">
+
+        <article>
+            <header class="mb-16 text-center">
+                <div class="mb-6 px-4 py-1 border border-gray-100 bg-gray-50 rounded-full text-[10px] tracking-[0.2em] text-gray-400 uppercase font-semibold inline-block">
+                    Article
+                </div>
+                <h1 class="serif-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-800 leading-tight mb-6">
+                    Vector Quantization: How to Shrink Your Vectors Without Losing the Plot
+                </h1>
+                <div class="flex items-center justify-center gap-4 text-sm text-gray-400">
+                    <time datetime="2026-06-28">June 28, 2026</time>
+                    <span>·</span>
+                    <span>7 min read</span>
+                </div>
+            </header>
+
+            <div class="prose prose-lg mx-auto">
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">1. Why Vectors Get So Expensive</h2>
+                <p class="mb-6">
+                    Here's the thing about working with real datasets: the number of vectors you need tends to grow fast. Like, really fast. Before you know it, you're sitting on millions of them.
+                </p>
+                <p class="mb-6">
+                    And it's not just about how many vectors you have, it's also about how "big" each one is. Modern embedding models, like the ones from OpenAI, often produce vectors with 1536 dimensions. A single one of those takes up around 6KB of memory. That might sound tiny, but once you reach a million vectors, you're already looking at around 6GB of memory just to hold them.
+                </p>
+
+                <p class="mb-6">
+                    So as your dataset grows into the millions, your memory and processing needs grow right along with it. And since vectors need to live somewhere fast, usually RAM, so that searches stay quick, the cost of just storing and maintaining all that data starts to climb too.
+                </p>
+                <p class="mb-6">
+                    This is the exact problem that <strong>quantization</strong> was built to solve.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">2. What Is Quantization?</h2>
+                <p class="mb-6">
+                    In plain terms, quantization compresses your vectors so they take up less memory, which makes everything run more efficiently. If you're working with a large dataset, vectors can eat up a lot of space, and quantization is basically how you fight back against that.
+                </p>
+                <p class="mb-6">
+                    There's more than one way to do this, but three approaches cover almost every situation you'll run into:
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li>Scalar quantization</li>
+                    <li>Binary quantization</li>
+                    <li>Product quantization</li>
+                </ul>
+                <p class="mb-6">
+                    Let's go through each one.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. The Three Quantization Methods</h2>
+                <p class="mb-6">
+                    Each method takes a different approach to compressing your vectors, and each comes with its own trade-offs. Let's break them down one by one.
+                </p>
+
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.1 Scalar Quantization</h3>
+                <p class="mb-6">
+                    Scalar quantization gives you a nice speed boost without giving up much accuracy.
+                </p>
+                <p class="mb-6">
+                    Normally, each dimension in a vector is stored as a <code>float32</code> value. That's just a fancy way of saying it uses 4 bytes of memory per dimension. Scalar quantization takes those values and squeezes them into a much smaller type called <code>int8</code>.
+                </p>
+                <p class="mb-6">
+                    An <code>int8</code> only takes up one byte, and it can only represent 256 different values (think a range like <code>[-128 to 127]</code> or <code>[0 to 255]</code>). That one change alone makes a big difference, cutting memory usage by around 75%.
+                </p>
+
+                <p class="mb-6">
+                    This is a great option if you just want a quick win on search speed without messing with your accuracy too much. As a bonus, it also runs faster on its own, since doing math with <code>int8</code> values is quicker than doing the same math with <code>float32</code>.
+                </p>
+
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.2 Binary Quantization</h3>
+                <p class="mb-6">
+                    Binary quantization gives you the biggest speed boost you can get, if you're okay trading off a bit of accuracy.
+                </p>
+                <p class="mb-6">
+                    Binary quantization is your go-to if you want to cut memory usage way down and get a massive speed boost at the same time, we're talking up to 40 times faster.
+                </p>
+                <p class="mb-6">
+                    Here's how it works: every value in your vector gets turned into either a 0 or a 1. If a value is greater than zero, it becomes a 1. If it's zero or less, it becomes a 0. For example, -0.99 becomes 0, while both 0.99 and 0.01 become 1.
+                </p>
+
+                <p class="mb-6">
+                    Out of all the methods here, this one gives you the biggest speed boost without losing too much accuracy. Depending on your dataset and hardware, it can speed up search by up to 40 times.
+                </p>
+
+                <p class="mb-6">
+                    So with binary quantization, you're not just shrinking your vectors by 32 times, you're also making your searches up to 40 times faster. That's a pretty good deal.
+                </p>
+
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.3 Product Quantization</h3>
+                <p class="mb-6">
+                    Product quantization is good to know about, but usually not your first pick since it can hurt accuracy quite a bit.
+                </p>
+                <p class="mb-6">
+                    This one isn't usually the go-to recommendation, mainly because it tends to come with a noticeable drop in accuracy. That said, it's still worth understanding, since it might be the right fit depending on what you're building.
+                </p>
+                <p class="mb-6">
+                    The basic idea behind product quantization is to take a big, high-dimensional vector and represent it using a much smaller set of representative points. Here's how that plays out step by step:
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li>The original vector gets split into smaller pieces, called sub-vectors. Each one covers a different chunk of the original vector.</li>
+                    <li>This lets the method pick up on different patterns in different parts of your data.</li>
+                    <li>For each sub-vector, a separate "codebook" gets created. Think of it as a lookup table that maps common patterns to specific regions.</li>
+                    <li>Each region in that codebook has a centroid, basically a single point that represents everything in that region.</li>
+                </ul>
+                <p class="mb-6">
+                    Depending on how you configure it, product quantization can shrink your vectors by 4, 16, 32, or even 64 times. The catch is that the more aggressive you get with compression, the more accuracy you tend to lose compared to scalar or binary quantization.
+                </p>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">4. So, Which One Should You Use?</h2>
+                <p class="mb-6">
+                    Every method here comes with trade-offs between memory savings, speed, and accuracy. There's no single "best" answer, it really comes down to how much accuracy you're willing to trade for extra speed and storage savings.
+                </p>
+
+                <table class="w-full text-sm border-collapse mb-6">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Method</th>
+                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Memory Savings</th>
+                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Speed Gain</th>
+                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Accuracy Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-200 px-3 py-2">Scalar</td>
+                            <td class="border border-gray-200 px-3 py-2">~75%</td>
+                            <td class="border border-gray-200 px-3 py-2">Moderate</td>
+                            <td class="border border-gray-200 px-3 py-2">Low</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-3 py-2">Binary</td>
+                            <td class="border border-gray-200 px-3 py-2">Up to 32x</td>
+                            <td class="border border-gray-200 px-3 py-2">Up to 40x</td>
+                            <td class="border border-gray-200 px-3 py-2">Moderate</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-200 px-3 py-2">Product</td>
+                            <td class="border border-gray-200 px-3 py-2">4x to 64x</td>
+                            <td class="border border-gray-200 px-3 py-2">Varies</td>
+                            <td class="border border-gray-200 px-3 py-2">High</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="mb-6">
+                    One more handy tip: when you turn on quantization, both your original vectors and your quantized ones get stored in RAM by default. If you want to save even more on RAM and lower your overall costs, you can move the original vectors to disk by setting the on-disk parameter to <code>true</code>.
+                </p>
+
+                <blockquote class="mb-6">
+                    Picking the right quantization method isn't about finding the "best" one, it's about matching the trade-off to your own situation: how much RAM you've got, how fast your searches need to be, and how much accuracy you can afford to give up.
+                </blockquote>
+
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">5. A Quick Note on Accuracy</h2>
+                <p class="mb-6">
+                    When we use quantization methods like scalar, binary, or product quantization, we're compressing our vectors to save memory and improve performance. However, this compression can slightly reduce the accuracy of our similarity searches, since the quantized vectors are just approximations of our original data. To help make up for that small loss in accuracy, you can use techniques like oversampling, rescoring, and re-ranking, which can improve the accuracy of your final search results. We'll be covering all of that in the next blog.
+                </p>
+
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer class="py-12 text-center text-sm text-gray-400">
+        <p>Written with love by Achal.</p>
+    </footer>
+
+</body>
+</html>
