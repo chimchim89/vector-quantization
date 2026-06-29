@@ -107,11 +107,12 @@
 
             <div class="prose prose-lg mx-auto">
 
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">1. Introduction</h2>
                 <p class="mb-6">
                     Vectors are great until you have too many of them. The moment your dataset moves from a few thousand embeddings to a few million, things that used to feel free, memory, storage, search speed, suddenly start costing you. And the annoying part is, none of it shows up until you're already deep in production. So let's talk about why this happens, and more importantly, how quantization helps you fix it without wrecking your accuracy in the process.
                 </p>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">1. Why Vectors Get So Expensive</h2>
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">2. Why Vectors Get So Expensive</h2>
                 <p class="mb-6">
                     Here's the thing about working with real datasets: the number of vectors you need tends to grow fast. Like, really fast. Before you know it, you're sitting on millions of them.
                 </p>
@@ -126,7 +127,7 @@
                     This is the exact problem that <strong>quantization</strong> was built to solve.
                 </p>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">2. What Is Quantization?</h2>
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. What Is Quantization?</h2>
                 <p class="mb-6">
                     In plain terms, quantization compresses your vectors so they take up less memory, which makes everything run more efficiently. If you're working with a large dataset, vectors can eat up a lot of space, and quantization is basically how you fight back against that.
                 </p>
@@ -142,12 +143,12 @@
                     Let's go through each one.
                 </p>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">3. The Three Quantization Methods</h2>
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">4. The Three Quantization Methods</h2>
                 <p class="mb-6">
                     Each method takes a different approach to compressing your vectors, and each comes with its own trade-offs. Let's break them down one by one.
                 </p>
 
-                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.1 Scalar Quantization</h3>
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">4.1 Scalar Quantization</h3>
                 <p class="mb-6">
                     Scalar quantization gives you a nice speed boost without giving up much accuracy.
                 </p>
@@ -167,7 +168,7 @@
                     This is a great option if you just want a quick win on search speed without messing with your accuracy too much. As a bonus, it also runs faster on its own, since doing math with <code>int8</code> values is quicker than doing the same math with <code>float32</code>.
                 </p>
 
-                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.2 Binary Quantization</h3>
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">4.2 Binary Quantization</h3>
                 <p class="mb-6">
                     Binary quantization gives you the biggest speed boost you can get, if you're okay trading off a bit of accuracy.
                 </p>
@@ -202,7 +203,7 @@
                   <figcaption></figcaption>
                 </figure><br>
 
-                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.3 Product Quantization</h3>
+                <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">4.3 Product Quantization</h3>
                 <p class="mb-6">
                     Product quantization is good to know about, but usually not your first pick since it can hurt accuracy quite a bit.
                 </p>
@@ -233,7 +234,7 @@
                     Depending on how you configure it, product quantization can shrink your vectors by 4, 16, 32, or even 64 times. The catch is that the more aggressive you get with compression, the more accuracy you tend to lose compared to scalar or binary quantization.
                 </p>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">4. So, Which One Should You Use?</h2>
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">5. So, Which One Should You Use?</h2>
                 <p class="mb-6">
                     Every method here comes with trade-offs between memory savings, speed, and accuracy. There's no single "best" answer, it really comes down to how much accuracy you're willing to trade for extra speed and storage savings.
                 </p>
@@ -251,7 +252,7 @@
                     Picking the right quantization method isn't about finding the "best" one, it's about matching the trade-off to your own situation: how much RAM you've got, how fast your searches need to be, and how much accuracy you can afford to give up.
                 </blockquote>
 
-                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">5. A Quick Note on Accuracy</h2>
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">6. A Quick Note on Accuracy</h2>
                 <p class="mb-6">
                     When we use quantization methods like scalar, binary, or product quantization, we're compressing our vectors to save memory and improve performance. However, this compression can slightly reduce the accuracy of our similarity searches, since the quantized vectors are just approximations of our original data. To help make up for that small loss in accuracy, you can use techniques like oversampling, rescoring, and re-ranking, which can improve the accuracy of your final search results. We'll be covering all of that in the next blog.
                 </p>
