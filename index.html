@@ -154,6 +154,11 @@
                     An <code>int8</code> only takes up one byte, and it can only represent 256 different values (think a range like <code>[-128 to 127]</code> or <code>[0 to 255]</code>). That one change alone makes a big difference, cutting memory usage by around 75%.
                 </p>
 
+                <figure>
+                  <img src="images/scalar.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
+
                 <p class="mb-6">
                     This is a great option if you just want a quick win on search speed without messing with your accuracy too much. As a bonus, it also runs faster on its own, since doing math with <code>int8</code> values is quicker than doing the same math with <code>float32</code>.
                 </p>
@@ -165,17 +170,33 @@
                 <p class="mb-6">
                     Binary quantization is your go-to if you want to cut memory usage way down and get a massive speed boost at the same time, we're talking up to 40 times faster.
                 </p>
+
+                <figure>
+                  <img src="images/binary1.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
+
                 <p class="mb-6">
                     Here's how it works: every value in your vector gets turned into either a 0 or a 1. If a value is greater than zero, it becomes a 1. If it's zero or less, it becomes a 0. For example, -0.99 becomes 0, while both 0.99 and 0.01 become 1.
                 </p>
+
+                <figure>
+                  <img src="images/binary2.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
 
                 <p class="mb-6">
                     Out of all the methods here, this one gives you the biggest speed boost without losing too much accuracy. Depending on your dataset and hardware, it can speed up search by up to 40 times.
                 </p>
 
                 <p class="mb-6">
-                    So with binary quantization, you're not just shrinking your vectors by 32 times, you're also making your searches up to 40 times faster. That's a pretty good deal.
+                    So with binary quantization, you're not just shrinking your vectors by 32 times, you're also making your searches up to 40 times faster. That's a pretty good deal. However, not every model is equally compatible with binary quantization. Some models experience a greater loss in accuracy when are quantized with binary quantization than others and some models perform really well with binari quantization. So the general recommendation is that you use it with models that have atleast 1,024 dimensions to minimize the accuracy loss that come with it. So these are some of the best models to use binary quantization with.
                 </p>
+
+                <figure>
+                  <img src="images/binary3.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
 
                 <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.3 Product Quantization</h3>
                 <p class="mb-6">
@@ -193,6 +214,17 @@
                     <li>For each sub-vector, a separate "codebook" gets created. Think of it as a lookup table that maps common patterns to specific regions.</li>
                     <li>Each region in that codebook has a centroid, basically a single point that represents everything in that region.</li>
                 </ul>
+
+                <figure>
+                  <img src="images/product1.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
+
+                <figure>
+                  <img src="images/product2.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
+
                 <p class="mb-6">
                     Depending on how you configure it, product quantization can shrink your vectors by 4, 16, 32, or even 64 times. The catch is that the more aggressive you get with compression, the more accuracy you tend to lose compared to scalar or binary quantization.
                 </p>
@@ -202,36 +234,10 @@
                     Every method here comes with trade-offs between memory savings, speed, and accuracy. There's no single "best" answer, it really comes down to how much accuracy you're willing to trade for extra speed and storage savings.
                 </p>
 
-                <table class="w-full text-sm border-collapse mb-6">
-                    <thead>
-                        <tr>
-                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Method</th>
-                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Memory Savings</th>
-                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Speed Gain</th>
-                            <th class="border border-gray-200 bg-gray-50 px-3 py-2 text-left">Accuracy Impact</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border border-gray-200 px-3 py-2">Scalar</td>
-                            <td class="border border-gray-200 px-3 py-2">~75%</td>
-                            <td class="border border-gray-200 px-3 py-2">Moderate</td>
-                            <td class="border border-gray-200 px-3 py-2">Low</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-200 px-3 py-2">Binary</td>
-                            <td class="border border-gray-200 px-3 py-2">Up to 32x</td>
-                            <td class="border border-gray-200 px-3 py-2">Up to 40x</td>
-                            <td class="border border-gray-200 px-3 py-2">Moderate</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-gray-200 px-3 py-2">Product</td>
-                            <td class="border border-gray-200 px-3 py-2">4x to 64x</td>
-                            <td class="border border-gray-200 px-3 py-2">Varies</td>
-                            <td class="border border-gray-200 px-3 py-2">High</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <figure>
+                  <img src="images/final-table.png" alt="brief description">
+                  <figcaption></figcaption>
+                </figure>
 
                 <p class="mb-6">
                     One more handy tip: when you turn on quantization, both your original vectors and your quantized ones get stored in RAM by default. If you want to save even more on RAM and lower your overall costs, you can move the original vectors to disk by setting the on-disk parameter to <code>true</code>.
