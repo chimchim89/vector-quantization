@@ -157,7 +157,7 @@
                 <figure>
                   <img src="images/scalar.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <p class="mb-6">
                     This is a great option if you just want a quick win on search speed without messing with your accuracy too much. As a bonus, it also runs faster on its own, since doing math with <code>int8</code> values is quicker than doing the same math with <code>float32</code>.
@@ -174,7 +174,7 @@
                 <figure>
                   <img src="images/binary1.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <p class="mb-6">
                     Here's how it works: every value in your vector gets turned into either a 0 or a 1. If a value is greater than zero, it becomes a 1. If it's zero or less, it becomes a 0. For example, -0.99 becomes 0, while both 0.99 and 0.01 become 1.
@@ -183,7 +183,7 @@
                 <figure>
                   <img src="images/binary2.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <p class="mb-6">
                     Out of all the methods here, this one gives you the biggest speed boost without losing too much accuracy. Depending on your dataset and hardware, it can speed up search by up to 40 times.
@@ -196,7 +196,7 @@
                 <figure>
                   <img src="images/binary3.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <h3 class="text-xl sm:text-2xl text-gray-800 mt-8 sm:mt-10 mb-3 sm:mb-4">3.3 Product Quantization</h3>
                 <p class="mb-6">
@@ -218,12 +218,12 @@
                 <figure>
                   <img src="images/product1.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <figure>
                   <img src="images/product2.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br>
 
                 <p class="mb-6">
                     Depending on how you configure it, product quantization can shrink your vectors by 4, 16, 32, or even 64 times. The catch is that the more aggressive you get with compression, the more accuracy you tend to lose compared to scalar or binary quantization.
@@ -237,7 +237,7 @@
                 <figure>
                   <img src="images/final-table.png" alt="brief description">
                   <figcaption></figcaption>
-                </figure>
+                </figure><br
 
                 <p class="mb-6">
                     One more handy tip: when you turn on quantization, both your original vectors and your quantized ones get stored in RAM by default. If you want to save even more on RAM and lower your overall costs, you can move the original vectors to disk by setting the on-disk parameter to <code>true</code>.
