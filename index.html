@@ -257,6 +257,11 @@
                     When we use quantization methods like scalar, binary, or product quantization, we're compressing our vectors to save memory and improve performance. However, this compression can slightly reduce the accuracy of our similarity searches, since the quantized vectors are just approximations of our original data. To help make up for that small loss in accuracy, you can use techniques like oversampling, rescoring, and re-ranking, which can improve the accuracy of your final search results. We'll be covering all of that in the next blog.
                 </p>
 
+                <h2 class="text-2xl sm:text-3xl text-gray-800 mt-10 sm:mt-12 mb-4 sm:mb-6">7. Conclusion</h2>
+                <p class="mb-6">
+                    Quantization isn't some niche trick you pull out when things get desperate, it's basically the default move once your dataset grows past a certain point. Scalar gets you a safe, easy win. Binary gets you the most dramatic speed-up if your model can handle it. Product quantization gets you flexibility, if you're willing to live with the accuracy hit. None of them are "wrong," they just fit different situations. The real skill is figuring out which trade-off matches what you're building, instead of assuming one method is universally better than the others. And the good news is, you're not stuck with whatever accuracy loss you end up with, in the next blog, we'll get into oversampling, rescoring, and reranking, which claw back a lot of that lost accuracy without giving up the speed and memory wins you just earned.
+                </p>
+                
             </div>
 
         </article>
